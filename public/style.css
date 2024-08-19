@@ -15,3 +15,11 @@
 ul {
   list-style: none;
 }
+
+.answer-option{
+  cursor: pointer;
+  padding : 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 4px;
+}
