@@ -32,5 +32,14 @@ export const initQuestionPage = () => {
 const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
 
-  initQuestionPage();
+  if (quizData.currentQuestionIndex < quizData.questions.length) {
+    initQuestionPage();
+  } else {
+    displayQuizEnd();
+  }
 };
+
+const displayQuizEnd = () => {
+  const userInterface = document.getElementById(USER_INTERFACE_ID);
+  userInterface.innerHTML = '<h1>Quiz Complete! Thank you for playing!</h1>';
+}
