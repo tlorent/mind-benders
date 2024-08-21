@@ -7,5 +7,6 @@ export const createAnswerElement = (key, answerText) => {
   element.innerHTML = String.raw`
     ${key}: ${answerText};
   `;
+  element.dataset.key = key;
   return element;
 };

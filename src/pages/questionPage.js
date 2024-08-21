@@ -22,12 +22,25 @@ export const initQuestionPage = () => {
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
     answersListElement.appendChild(answerElement);
+    
+    answerElement.addEventListener('click', () => {
+      handleAnswerSelection(key);
+    });
   }
 
   document
     .getElementById(NEXT_QUESTION_BUTTON_ID)
     .addEventListener('click', nextQuestion);
 };
+
+const handleAnswerSelection = (selectedKey) => {
+  const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
+  currentQuestion.selected = selectedKey;
+
+  if (selectedKey === currentQuestion.correct) {
+    quizData.score += 10;
+  }
+}
 
 const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
@@ -41,5 +54,18 @@ const nextQuestion = () => {
 
 const displayQuizEnd = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
-  userInterface.innerHTML = '<h1>Quiz Complete! Thank you for playing!</h1>';
+
+  let resultMessage;
+  if (quizData.score >= 50) {
+    resultMessage = `<h2>Congratulations! You win the quiz!</h2>`
+  } else {
+    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!`
+  }
+
+  userInterface.innerHTML = `
+  <h1>Quiz Complete! Thank you for playing!</h1>
+  <h2>Your Final Score is: ${quizData.score}</h2>
+  ${resultMessage}
+  `;
+
 }
