@@ -7,7 +7,5 @@ export const createAnswerElement = (key, answerText) => {
   element.innerHTML = String.raw`
     ${key}: ${answerText};
   `;
-  element.classList.add('answer-option');
-  element.addEventListener('click', () => handleAnswerClick(key, element));
   return element;
 };
