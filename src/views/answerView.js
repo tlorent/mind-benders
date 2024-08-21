@@ -8,6 +8,6 @@ export const createAnswerElement = (key, answerText) => {
     ${key}: ${answerText};
   `;
   element.classList.add('answer-option');
-  element.addEventListener('click',() => handleAnswerClick(key, element))
+  element.addEventListener('click', () => handleAnswerClick(key, element));
   return element;
 };
