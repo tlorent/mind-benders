@@ -10,8 +10,7 @@ export const createAnswerElement = (key, answerText) => {
   `;
   
   
-  // add event listener to clicked answer
-  element.addEventListener('click',() => handleAnswerClick(key));
+ 
   return element;
 };
 
