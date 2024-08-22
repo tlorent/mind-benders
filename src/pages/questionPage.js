@@ -63,10 +63,15 @@ const nextQuestion = () => {
   }
 };
 
-const skipQuestion = () => {
-  document.getElementById(CORRECT_ANSWER_BUTTON_ID).style.color = 'green';
-};
+const skipQuestion = () =>{
+  quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
 
+  if (quizData.currentQuestionIndex < quizData.questions.length) {
+    initQuestionPage();
+  } else {
+    displayQuizEnd();
+  }
+};
 const displayQuizEnd = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
 
