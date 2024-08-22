@@ -51,7 +51,14 @@ const handleAnswerSelection = (selectedKey) => {
   if (selectedKey === currentQuestion.correct) {
     quizData.score += 10;
   }
-}
+
+
+// disable all options after selecting an answer
+
+const answerButtons = document.querySelectorAll('.answer-option');
+answerButtons.forEach((button) => (button.disabled = true));
+};
+
 
 const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
