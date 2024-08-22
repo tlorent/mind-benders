@@ -2,6 +2,8 @@ import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
   USER_INTERFACE_ID,
+  SKIP_QUESTION_BUTTON_ID,
+  CORRECT_ANSWER_BUTTON_ID,
 } from '../constants.js';
 import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
@@ -21,12 +23,21 @@ export const initQuestionPage = () => {
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
+    if (currentQuestion.correct === key){
+      answerElement.id = CORRECT_ANSWER_BUTTON_ID;
+    }
+    
     answersListElement.appendChild(answerElement);
   }
 
   document
     .getElementById(NEXT_QUESTION_BUTTON_ID)
     .addEventListener('click', nextQuestion);
+    
+  document
+  .getElementById(SKIP_QUESTION_BUTTON_ID)
+  .addEventListener('click', skipQuestion);
+    
 };
 
 const nextQuestion = () => {
@@ -37,6 +48,10 @@ const nextQuestion = () => {
   } else {
     displayQuizEnd();
   }
+};
+
+const skipQuestion = () => {
+  document.getElementById(CORRECT_ANSWER_BUTTON_ID).style.color = 'green';
 };
 
 const displayQuizEnd = () => {
