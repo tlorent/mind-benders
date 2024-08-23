@@ -2,6 +2,7 @@ import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
   USER_INTERFACE_ID,
+  SCORE_DISPLAY_ID, 
   SKIP_QUESTION_BUTTON_ID,
   CORRECT_ANSWER_BUTTON_ID,
 } from '../constants.js';
@@ -25,7 +26,10 @@ export const initQuestionPage = () => {
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
-    if ((currentQuestion.id = CORRECT_ANSWER_BUTTON_ID));
+    
+    if (currentQuestion.correct === key) {
+      answerElement.id = CORRECT_ANSWER_BUTTON_ID;
+    }
 
     answersListElement.appendChild(answerElement);
 
@@ -51,11 +55,13 @@ const handleAnswerSelection = (selectedKey) => {
     quizData.score += 10;
   }
 
+  // Update the score display
+  const scoreElement = document.getElementById(SCORE_DISPLAY_ID); 
+  scoreElement.textContent = `Your score : ${quizData.score}`; 
 
-// disable all options after selecting an answer
-
-const answerButtons = document.querySelectorAll('.answer-option');
-answerButtons.forEach((button) => (button.disabled = true));
+  // Disable all options after selecting an answer
+  const answerButtons = document.querySelectorAll('.answer-option');
+  answerButtons.forEach((button) => (button.disabled = true));
 };
 
 
@@ -88,7 +94,7 @@ const nextQuestion =() =>{
   }
 }
 
-const skipQuestion = () =>{
+const skipQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
 
   if (quizData.currentQuestionIndex < quizData.questions.length) {
@@ -105,7 +111,7 @@ const displayQuizEnd = () => {
   if (quizData.score >= 50) {
     resultMessage = `<h2>Congratulations! You win the quiz!</h2>`;
   } else {
-    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!`;
+    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!</h2>`;
   }
 
   userInterface.innerHTML = `
