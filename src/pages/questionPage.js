@@ -25,7 +25,7 @@ export const initQuestionPage = () => {
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
-    if(currentQuestion.id = CORRECT_ANSWER_BUTTON_ID);
+    if ((currentQuestion.id = CORRECT_ANSWER_BUTTON_ID));
 
     answersListElement.appendChild(answerElement);
 
@@ -35,13 +35,12 @@ export const initQuestionPage = () => {
     });
   }
   document
-  .getElementById(NEXT_QUESTION_BUTTON_ID)
-  .addEventListener('click', nextQuestion);
+    .getElementById(NEXT_QUESTION_BUTTON_ID)
+    .addEventListener('click', nextQuestion);
 
   document
-  .getElementById(SKIP_QUESTION_BUTTON_ID)
-  .addEventListener('click', skipQuestion);
-
+    .getElementById(SKIP_QUESTION_BUTTON_ID)
+    .addEventListener('click', skipQuestion);
 };
 
 const handleAnswerSelection = (selectedKey) => {
@@ -55,9 +54,11 @@ const handleAnswerSelection = (selectedKey) => {
 
 const showCorrectAndSelectedAnswer = (selectedKey) => {
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
-  const answerButtons = document.querySelectorAll(`#${ANSWERS_LIST_ID} .answer-option`);
+  const answerButtons = document.querySelectorAll(
+    `#${ANSWERS_LIST_ID} .answer-option`
+  );
 
-  answerButtons.forEach(button => {
+  answerButtons.forEach((button) => {
     const answerKey = button.dataset.key;
 
     if (answerKey === currentQuestion.correct) {
