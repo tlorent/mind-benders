@@ -1,3 +1,8 @@
+body {
+  background-color: #1d1d22; /* Dark background */
+  font-family: Arial, sans-serif;
+  color: white;
+}
 .centered {
   position: fixed;
   top: 50%;
@@ -12,7 +17,103 @@
   overflow: auto;
 }
 
-ul {
-  list-style: none;
+
+.answer-option {
+  background-color: #272222;
+  color: white;
+  border: 2px solid #444444;
+  padding: 10px 30px;
+  margin: 10px ;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
+.answer-option:hover {
+  background-color: #555555;
+  transform: scale(1.05);
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+ 
+}
+
+.button-container button {
+  margin: 0 10px;
+}
+
+
+li{
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+li:hover {
+  background-color: #555555;
+  transform: scale(1.05);
+}
+button{
+  background-color: #25376e;
+  color: white;
+  border: 2px solid #444444;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
+
+}
+
+button:hover{
+  background-color: #555555;
+  transform: scale(1.05);
+
+}
+
+.correct-answer {
+  background-color:#06e606;
+  color:white;
+}
+
+.wrong-answer{
+  background-color: rgb(245, 9, 9);
+  color:white;
+}
+
+p{
+  font-size: 18px;
+  margin:20px 0;
+}
+
+a{
+  color: white;
+  text-decoration: none;
+}
+
+a:hover{
+  color:#00ff00
+}
+
+#user-interface{
+  padding: 20px;
+}
+
+ul{
+  list-style: none;
+  padding: 0;
+  margin:0;
+}
+@media screen and (max-width: 600px) {
+  .button-container {
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  .button-container button {
+    margin-bottom: 10px;
+  }
+}

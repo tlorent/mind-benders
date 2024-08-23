@@ -15,43 +15,77 @@ export const initQuestionPage = () => {
 
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
 
-  const questionElement = createQuestionElement(currentQuestion.text);
+const questionElement = createQuestionElement(currentQuestion.text);
+   userInterface.appendChild(questionElement);
 
-  userInterface.appendChild(questionElement);
-
-  const answersListElement = document.getElementById(ANSWERS_LIST_ID);
+  const answersListElement = document.createElement('ul');
+  answersListElement.id = ANSWERS_LIST_ID;
+  userInterface.appendChild(answersListElement);
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
-    const answerElement = createAnswerElement(key, answerText);
-    if (currentQuestion.correct === key){
-      answerElement.id = CORRECT_ANSWER_BUTTON_ID;
-    }
+    const answerElement = createAnswerElement(key, answerText); 
     
     answersListElement.appendChild(answerElement);
     
     answerElement.addEventListener('click', () => {
-      handleAnswerSelection(key);
+      handleAnswerSelection(key, answerElement);
+      showCorrectAndSelectedAnswers(key);
     });
   }
 
-  document
-    .getElementById(NEXT_QUESTION_BUTTON_ID)
-    .addEventListener('click', nextQuestion);
-    
-  document
-  .getElementById(SKIP_QUESTION_BUTTON_ID)
-  .addEventListener('click', skipQuestion);
-    
+  const nextButton = document.createElement('button');
+  nextButton.id = NEXT_QUESTION_BUTTON_ID;
+  nextButton.textContent = 'Next Question';
+  nextButton.addEventListener('click', nextQuestion);
+  buttonContainer.appendChild(nextButton);
+
+  const skipButton = document.createElement('button');
+  skipButton.id = SKIP_QUESTION_BUTTON_ID;
+  skipButton.textContent = 'Skip Question';
+  skipButton.addEventListener('click', skipQuestion);
+  buttonContainer.appendChild(skipButton);
+
+  userInterface.appendChild(buttonContainer);
+
 };
 
-const handleAnswerSelection = (selectedKey) => {
+const handleAnswerSelection = (selectedKey, selectedElement) => {
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
   currentQuestion.selected = selectedKey;
 
   if (selectedKey === currentQuestion.correct) {
     quizData.score += 10;
+    selectedElement.classList.add('correct-answer');
+  } else {
+    selectedElement.classList.add('wrong-answer');
   }
-}
+  disableAllButtons();
+  };
+
+  const disableAllButtons = () => {
+    const answerButtons = document.querySelectorAll(`#${ANSWERS_LIST_ID} li`);
+    answerButtons.forEach(button => {
+      button.style.pointerEvents = 'none'; 
+    });
+  };
+
+  const showCorrectAndSelectedAnswers = (selectedKey) => {
+    const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
+    const answerButtons = document.querySelectorAll(`#${ANSWERS_LIST_ID} li`);
+
+  answerButtons.forEach((button) => {
+    const answerKey = button.dataset.key; // Ensure that createAnswerElement sets this data attribute
+
+    if (answerKey === currentQuestion.correct) {
+      button.classList.add('correct-answer');
+    }
+    
+    if (answerKey === selectedKey && selectedKey !== currentQuestion.correct) {
+      button.classList.add('wrong-answer');
+    }
+  });
+};
+
 
 const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
