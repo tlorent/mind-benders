@@ -2,6 +2,7 @@ import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
   USER_INTERFACE_ID,
+  SCORE_DISPLAY_ID, // added in 4th commit
 } from '../constants.js';
 import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
@@ -40,6 +41,10 @@ const handleAnswerSelection = (selectedKey) => {
   if (selectedKey === currentQuestion.correct) {
     quizData.score += 10;
   }
+
+  const scoreElement = document.getElementById(SCORE_DISPLAY_ID); 
+  scoreElement.textContent = `Your score : ${quizData.score}`; // shows and update the score in each question- 4th commit.
+
 }
 
 const nextQuestion = () => {
