@@ -51,7 +51,14 @@ const handleAnswerSelection = (selectedKey) => {
   if (selectedKey === currentQuestion.correct) {
     quizData.score += 10;
   }
-}
+
+
+// disable all options after selecting an answer
+
+const answerButtons = document.querySelectorAll('.answer-option');
+answerButtons.forEach((button) => (button.disabled = true));
+};
+
 
 const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
@@ -63,10 +70,15 @@ const nextQuestion = () => {
   }
 };
 
-const skipQuestion = () => {
-  document.getElementById(CORRECT_ANSWER_BUTTON_ID).style.color = 'green';
-};
+const skipQuestion = () =>{
+  quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
 
+  if (quizData.currentQuestionIndex < quizData.questions.length) {
+    initQuestionPage();
+  } else {
+    displayQuizEnd();
+  }
+};
 const displayQuizEnd = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
 
