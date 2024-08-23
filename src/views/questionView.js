@@ -1,13 +1,13 @@
-import { 
+import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
-  SKIP_QUESTION_BUTTON_ID
+  SKIP_QUESTION_BUTTON_ID,
 } from '../constants.js';
 
 /**
  * Create a full question element
  * @returns {Element}
- * @param {string} question 
+ * @param {string} question
  */
 export const createQuestionElement = (question) => {
   const element = document.createElement('div');

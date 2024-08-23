@@ -118,8 +118,7 @@ export const quizData = {
         },
         {
           text: '',
-          href:
-            '',
+          href: '',
         },
       ],
     },

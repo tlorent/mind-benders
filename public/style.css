@@ -1,5 +1,5 @@
 body {
-  background-color: #1d1d22; 
+  background-color: #1d1d22;
   font-family: Arial, sans-serif, helvetica;
   color: white;
 }
@@ -17,13 +17,12 @@ body {
   overflow: auto;
 }
 
-
 .answer-option {
   background-color: #26262e;
   color: white;
   border: 2px solid #444444;
   padding: 10px 30px;
-  margin: 10px ;
+  margin: 10px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s, transform 0.2s;
@@ -34,20 +33,25 @@ body {
   transform: scale(1.05);
 }
 
-
 .button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
- 
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .button-container button {
   margin: 0 10px;
 }
 
+ul{
+  margin-bottom: 20px;
+  padding: 0;
+  list-style: none;
+}
 
-li{
+li {
   margin-bottom: 20px;
   font-size: 16px;
 }
@@ -56,7 +60,7 @@ li:hover {
   background-color: #555555;
   transform: scale(1.05);
 }
-button{
+button {
   background-color: #132148;
   color: white;
   border: 2px solid #444444;
@@ -66,45 +70,37 @@ button{
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s, transform 0.2s;
-
 }
 
-button:hover{
+button:hover {
   background-color: #555555;
   transform: scale(1.05);
-
 }
 
 .correct-answer {
-  background-color:#06e606;
-  color:white;
+  background-color: #06e606;
+  color: white;
 }
 
-.wrong-answer{
+.wrong-answer {
   background-color: rgb(245, 9, 9);
-  color:white;
+  color: white;
 }
 
-p{
+p {
   font-size: 18px;
-  margin:20px 0;
+  margin: 20px 0;
 }
 
-a{
+a {
   color: white;
   text-decoration: none;
 }
 
-
-#user-interface{
+#user-interface {
   padding: 20px;
 }
 
-ul{
-  list-style: none;
-  padding: 0;
-  margin:0;
-}
 @media screen and (max-width: 600px) {
   .button-container {
     flex-direction: column;
