@@ -11,4 +11,3 @@ export const ANSWERS_LIST_ID = 'answers-list';
 export const NEXT_QUESTION_BUTTON_ID = 'next-question-button';
 export const SKIP_QUESTION_BUTTON_ID = 'skip-question-button';
 export const CORRECT_ANSWER_BUTTON_ID = 'correct-answer-button';
-
