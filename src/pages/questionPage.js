@@ -2,7 +2,9 @@ import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
   USER_INTERFACE_ID,
-  SCORE_DISPLAY_ID, // added in 4th commit
+  SCORE_DISPLAY_ID,
+  SKIP_QUESTION_BUTTON_ID,
+  CORRECT_ANSWER_BUTTON_ID,
 } from '../constants.js';
 import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
@@ -22,6 +24,11 @@ export const initQuestionPage = () => {
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
+
+    if (currentQuestion.correct === key) {
+      answerElement.id = CORRECT_ANSWER_BUTTON_ID;
+    }
+
     answersListElement.appendChild(answerElement);
 
     answerElement.addEventListener('click', () => {
@@ -32,6 +39,10 @@ export const initQuestionPage = () => {
   document
     .getElementById(NEXT_QUESTION_BUTTON_ID)
     .addEventListener('click', nextQuestion);
+
+  document
+    .getElementById(SKIP_QUESTION_BUTTON_ID)
+    .addEventListener('click', skipQuestion);
 };
 
 const handleAnswerSelection = (selectedKey) => {
@@ -43,10 +54,23 @@ const handleAnswerSelection = (selectedKey) => {
   }
 
   const scoreElement = document.getElementById(SCORE_DISPLAY_ID);
-  scoreElement.textContent = `Your score : ${quizData.score}`; // shows and update the score in each question- 4th commit.
+  scoreElement.textContent = `Your score : ${quizData.score}`;
+
+  const answerButtons = document.querySelectorAll('.answer-option');
+  answerButtons.forEach((button) => (button.disabled = true));
 };
 
 const nextQuestion = () => {
+  quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
+
+  if (quizData.currentQuestionIndex < quizData.questions.length) {
+    initQuestionPage();
+  } else {
+    displayQuizEnd();
+  }
+};
+
+const skipQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
 
   if (quizData.currentQuestionIndex < quizData.questions.length) {
@@ -63,7 +87,7 @@ const displayQuizEnd = () => {
   if (quizData.score >= 50) {
     resultMessage = `<h2>Congratulations! You win the quiz!</h2>`;
   } else {
-    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!`;
+    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!</h2>`;
   }
 
   userInterface.innerHTML = `
