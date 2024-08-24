@@ -74,6 +74,15 @@ button {
   transition: background-color 0.3s, transform 0.2s;
 }
 
+input {
+  width: auto;
+  background-color: #132148;
+  color: white;
+  font-size: 20px;
+  border: #555555;
+  border-radius: 15%;
+}
+
 button:hover {
   background-color: #555555;
   transform: scale(1.05);
