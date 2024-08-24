@@ -15,12 +15,13 @@ export const initQuestionPage = () => {
   userInterface.innerHTML = '';
 
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
-
   const questionElement = createQuestionElement(currentQuestion.text);
 
   userInterface.appendChild(questionElement);
 
-  const answersListElement = document.getElementById(ANSWERS_LIST_ID);
+  const answersListElement = document.createElement('ul');
+  answersListElement.id = ANSWERS_LIST_ID;
+  userInterface.appendChild(answersListElement);
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
@@ -33,6 +34,7 @@ export const initQuestionPage = () => {
 
     answerElement.addEventListener('click', () => {
       handleAnswerSelection(key);
+      showCorrectAndSelectedAnswer(key);
     });
   }
 
@@ -54,14 +56,39 @@ const handleAnswerSelection = (selectedKey) => {
   }
 
   const scoreElement = document.getElementById(SCORE_DISPLAY_ID);
-  scoreElement.textContent = `Your score : ${quizData.score}`;
+  scoreElement.textContent = `Your score: ${quizData.score}`;
 
   const answerButtons = document.querySelectorAll('.answer-option');
-  answerButtons.forEach((button) => (button.disabled = true));
+  answerButtons.forEach((button) => {
+    button.disabled = true;
+  });
+};
+
+const showCorrectAndSelectedAnswer = (selectedKey) => {
+  const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
+  const answerButtons = document.querySelectorAll(
+    `#${ANSWERS_LIST_ID} .answer-option`
+  );
+
+  answerButtons.forEach((button) => {
+    const answerKey = button.dataset.key;
+
+    if (answerKey === currentQuestion.correct) {
+      button.classList.add('correct-answer');
+    }
+
+    if (answerKey === selectedKey && selectedKey !== currentQuestion.correct) {
+      button.classList.add('wrong-answer');
+
+      document
+        .querySelector(`[data-key="${currentQuestion.correct}"]`)
+        .classList.add('correct-answer');
+    }
+  });
 };
 
 const nextQuestion = () => {
-  quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
+  quizData.currentQuestionIndex += 1;
 
   if (quizData.currentQuestionIndex < quizData.questions.length) {
     initQuestionPage();
@@ -71,7 +98,7 @@ const nextQuestion = () => {
 };
 
 const skipQuestion = () => {
-  quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
+  quizData.currentQuestionIndex += 1;
 
   if (quizData.currentQuestionIndex < quizData.questions.length) {
     initQuestionPage();
@@ -91,8 +118,8 @@ const displayQuizEnd = () => {
   }
 
   userInterface.innerHTML = `
-  <h1>Quiz Complete! Thank you for playing!</h1>
-  <h2>Your Final Score is: ${quizData.score}</h2>
-  ${resultMessage}
+    <h1>Quiz Complete! Thank you for playing!</h1>
+    <h2>Your Final Score is: ${quizData.score}</h2>
+    ${resultMessage}
   `;
 };
