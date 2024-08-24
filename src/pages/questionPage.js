@@ -23,7 +23,7 @@ export const initQuestionPage = () => {
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
     answersListElement.appendChild(answerElement);
-    
+
     answerElement.addEventListener('click', () => {
       handleAnswerSelection(key);
     });
@@ -42,10 +42,9 @@ const handleAnswerSelection = (selectedKey) => {
     quizData.score += 10;
   }
 
-  const scoreElement = document.getElementById(SCORE_DISPLAY_ID); 
+  const scoreElement = document.getElementById(SCORE_DISPLAY_ID);
   scoreElement.textContent = `Your score : ${quizData.score}`; // shows and update the score in each question- 4th commit.
-
-}
+};
 
 const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
@@ -62,9 +61,9 @@ const displayQuizEnd = () => {
 
   let resultMessage;
   if (quizData.score >= 50) {
-    resultMessage = `<h2>Congratulations! You win the quiz!</h2>`
+    resultMessage = `<h2>Congratulations! You win the quiz!</h2>`;
   } else {
-    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!`
+    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!`;
   }
 
   userInterface.innerHTML = `
@@ -72,5 +71,4 @@ const displayQuizEnd = () => {
   <h2>Your Final Score is: ${quizData.score}</h2>
   ${resultMessage}
   `;
-
-}
+};
