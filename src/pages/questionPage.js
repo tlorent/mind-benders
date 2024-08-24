@@ -19,7 +19,9 @@ export const initQuestionPage = () => {
 
   userInterface.appendChild(questionElement);
 
-  const answersListElement = document.getElementById(ANSWERS_LIST_ID);
+  const answersListElement = document.createElement('ul');
+  answersListElement.id = ANSWERS_LIST_ID;
+  userInterface.appendChild(answersListElement);
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
