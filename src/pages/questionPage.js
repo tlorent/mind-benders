@@ -112,9 +112,9 @@ const displayQuizEnd = () => {
 
   let resultMessage;
   if (quizData.score >= 50) {
-    resultMessage = `<h2>Congratulations! You win the quiz!</h2>`;
+    resultMessage = `<h2>Congratulations, ${quizData.username}! You win the quiz!</h2>`;
   } else {
-    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!</h2>`;
+    resultMessage = `<h2>Sorry, ${quizData.username}! You lose the quiz. Better luck next time!</h2>`;
   }
 
   userInterface.innerHTML = `

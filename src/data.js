@@ -12,6 +12,7 @@
 export const quizData = {
   currentQuestionIndex: 0,
   score: 0,
+  username: 'Stranger',
   questions: [
     {
       text: 'How many continents do we have in the world?',
