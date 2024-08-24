@@ -2,7 +2,6 @@ import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
   USER_INTERFACE_ID,
-  SCORE_DISPLAY_ID,
   SKIP_QUESTION_BUTTON_ID,
   CORRECT_ANSWER_BUTTON_ID,
 } from '../constants.js';
@@ -15,19 +14,15 @@ export const initQuestionPage = () => {
   userInterface.innerHTML = '';
 
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
-  const questionElement = createQuestionElement(currentQuestion.text);
 
+  const questionElement = createQuestionElement(currentQuestion.text);
   userInterface.appendChild(questionElement);
 
   const answersListElement = document.getElementById(ANSWERS_LIST_ID);
+  answersListElement.innerHTML = '';
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
-
-    if (currentQuestion.correct === key) {
-      answerElement.id = CORRECT_ANSWER_BUTTON_ID;
-    }
-
     answersListElement.appendChild(answerElement);
 
     answerElement.addEventListener('click', () => {
@@ -53,13 +48,7 @@ const handleAnswerSelection = (selectedKey) => {
     quizData.score += 10;
   }
 
-  const scoreElement = document.getElementById(SCORE_DISPLAY_ID);
-  scoreElement.textContent = `Your score: ${quizData.score}`;
-
-  const answerButtons = document.querySelectorAll('.answer-option');
-  answerButtons.forEach((button) => {
-    button.disabled = true;
-  });
+  disableAnswerButtons();
 };
 
 const showCorrectAndSelectedAnswer = (selectedKey) => {
@@ -77,16 +66,21 @@ const showCorrectAndSelectedAnswer = (selectedKey) => {
 
     if (answerKey === selectedKey && selectedKey !== currentQuestion.correct) {
       button.classList.add('wrong-answer');
-
-      document
-        .querySelector(`[data-key="${currentQuestion.correct}"]`)
-        .classList.add('correct-answer');
     }
   });
 };
 
+const disableAnswerButtons = () => {
+  const answerButtons = document.querySelectorAll(
+    `#${ANSWERS_LIST_ID} .answer-option`
+  );
+  answerButtons.forEach((button) => {
+    button.disabled = true;
+  });
+};
+
 const nextQuestion = () => {
-  quizData.currentQuestionIndex += 1;
+  quizData.currentQuestionIndex++;
 
   if (quizData.currentQuestionIndex < quizData.questions.length) {
     initQuestionPage();
@@ -96,13 +90,7 @@ const nextQuestion = () => {
 };
 
 const skipQuestion = () => {
-  quizData.currentQuestionIndex += 1;
-
-  if (quizData.currentQuestionIndex < quizData.questions.length) {
-    initQuestionPage();
-  } else {
-    displayQuizEnd();
-  }
+  nextQuestion();
 };
 
 const displayQuizEnd = () => {
