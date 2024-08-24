@@ -19,14 +19,11 @@ export const initQuestionPage = () => {
 
   userInterface.appendChild(questionElement);
 
-  const answersListElement = document.createElement('ul');
-  answersListElement.id = ANSWERS_LIST_ID;
-  userInterface.appendChild(answersListElement);
+  const answersListElement = document.getElementById(ANSWERS_LIST_ID);
+
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
-    if ((currentQuestion.id = CORRECT_ANSWER_BUTTON_ID));
-
     answersListElement.appendChild(answerElement);
 
     answerElement.addEventListener('click', () => {
@@ -61,17 +58,35 @@ const showCorrectAndSelectedAnswer = (selectedKey) => {
   answerButtons.forEach((button) => {
     const answerKey = button.dataset.key;
 
+    
     if (answerKey === currentQuestion.correct) {
       button.classList.add('correct-answer');
     }
 
+    
     if (answerKey === selectedKey && selectedKey !== currentQuestion.correct) {
       button.classList.add('wrong-answer');
+
+      
+      document.querySelector(
+        `[data-key="${currentQuestion.correct}"]`
+      ).classList.add('correct-answer');
     }
   });
 };
 
-const skipQuestionQuestion = () => {
+
+const nextQuestion = () => {
+  quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
+
+  if (quizData.currentQuestionIndex < quizData.questions.length) {
+    initQuestionPage();
+  } else {
+    displayQuizEnd();
+  }
+};
+
+const skipQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
 
   if (quizData.currentQuestionIndex < quizData.questions.length) {
