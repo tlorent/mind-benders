@@ -1,7 +1,10 @@
+// src/pages/questionPage.js
+
 import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
   USER_INTERFACE_ID,
+  SCORE_DISPLAY_ID,
   SKIP_QUESTION_BUTTON_ID,
   CORRECT_ANSWER_BUTTON_ID,
 } from '../constants.js';
@@ -16,20 +19,25 @@ export const initQuestionPage = () => {
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
 
   const questionElement = createQuestionElement(currentQuestion.text);
-
   userInterface.appendChild(questionElement);
 
   const answersListElement = document.getElementById(ANSWERS_LIST_ID);
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
+
+    if (currentQuestion.correct === key) {
+      answerElement.id = CORRECT_ANSWER_BUTTON_ID;
+    }
+
     answersListElement.appendChild(answerElement);
 
     answerElement.addEventListener('click', () => {
-      handleAnswerSelection(key, answerElement);
+      handleAnswerSelection(key);
       showCorrectAndSelectedAnswer(key);
     });
   }
+
   document
     .getElementById(NEXT_QUESTION_BUTTON_ID)
     .addEventListener('click', nextQuestion);
@@ -44,8 +52,15 @@ const handleAnswerSelection = (selectedKey) => {
   currentQuestion.selected = selectedKey;
 
   if (selectedKey === currentQuestion.correct) {
-    quizData.score += 10;
+    quizData.score += 10; 
   }
+
+
+  const scoreElement = document.getElementById(SCORE_DISPLAY_ID);
+  scoreElement.textContent = `Your score: ${quizData.score}`;
+
+  const answerButtons = document.querySelectorAll('.answer-option');
+  answerButtons.forEach((button) => (button.disabled = true));
 };
 
 const showCorrectAndSelectedAnswer = (selectedKey) => {
@@ -72,7 +87,7 @@ const showCorrectAndSelectedAnswer = (selectedKey) => {
 };
 
 const nextQuestion = () => {
-  quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
+  quizData.currentQuestionIndex += 1;
 
   if (quizData.currentQuestionIndex < quizData.questions.length) {
     initQuestionPage();
@@ -82,7 +97,7 @@ const nextQuestion = () => {
 };
 
 const skipQuestion = () => {
-  quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
+  quizData.currentQuestionIndex += 1;
 
   if (quizData.currentQuestionIndex < quizData.questions.length) {
     initQuestionPage();
@@ -90,6 +105,7 @@ const skipQuestion = () => {
     displayQuizEnd();
   }
 };
+
 const displayQuizEnd = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
 
@@ -97,12 +113,12 @@ const displayQuizEnd = () => {
   if (quizData.score >= 50) {
     resultMessage = `<h2>Congratulations! You win the quiz!</h2>`;
   } else {
-    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!`;
+    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!</h2>`;
   }
 
   userInterface.innerHTML = `
-  <h1>Quiz Complete! Thank you for playing!</h1>
-  <h2>Your Final Score is: ${quizData.score}</h2>
-  ${resultMessage}
+    <h1>Quiz Complete! Thank you for playing!</h1>
+    <h2>Your Final Score is: ${quizData.score}</h2>
+    ${resultMessage}
   `;
 };
