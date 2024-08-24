@@ -2,6 +2,7 @@ import {
   ANSWERS_LIST_ID,
   NEXT_QUESTION_BUTTON_ID,
   USER_INTERFACE_ID,
+  SCORE_DISPLAY_ID, 
   SKIP_QUESTION_BUTTON_ID,
   CORRECT_ANSWER_BUTTON_ID,
 } from '../constants.js';
@@ -16,7 +17,6 @@ export const initQuestionPage = () => {
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
 
   const questionElement = createQuestionElement(currentQuestion.text);
-
   userInterface.appendChild(questionElement);
 
   const answersListElement = document.createElement('ul');
@@ -25,15 +25,19 @@ export const initQuestionPage = () => {
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
-    if ((currentQuestion.id = CORRECT_ANSWER_BUTTON_ID));
+    
+    if (currentQuestion.correct === key) {
+      answerElement.id = CORRECT_ANSWER_BUTTON_ID;
+    }
 
     answersListElement.appendChild(answerElement);
 
     answerElement.addEventListener('click', () => {
-      handleAnswerSelection(key, answerElement);
+      handleAnswerSelection(key);
       showCorrectAndSelectedAnswer(key);
     });
   }
+
   document
     .getElementById(NEXT_QUESTION_BUTTON_ID)
     .addEventListener('click', nextQuestion);
@@ -50,13 +54,19 @@ const handleAnswerSelection = (selectedKey) => {
   if (selectedKey === currentQuestion.correct) {
     quizData.score += 10;
   }
+
+  // Update the score display
+  const scoreElement = document.getElementById(SCORE_DISPLAY_ID); 
+  scoreElement.textContent = `Your score : ${quizData.score}`; 
+
+  // Disable all options after selecting an answer
+  const answerButtons = document.querySelectorAll('.answer-option');
+  answerButtons.forEach((button) => (button.disabled = true));
 };
 
 const showCorrectAndSelectedAnswer = (selectedKey) => {
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
-  const answerButtons = document.querySelectorAll(
-    `#${ANSWERS_LIST_ID} .answer-option`
-  );
+  const answerButtons = document.querySelectorAll(`#${ANSWERS_LIST_ID} .answer-option`);
 
   answerButtons.forEach((button) => {
     const answerKey = button.dataset.key;
@@ -71,7 +81,7 @@ const showCorrectAndSelectedAnswer = (selectedKey) => {
   });
 };
 
-const skipQuestionQuestion = () => {
+const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
 
   if (quizData.currentQuestionIndex < quizData.questions.length) {
@@ -80,6 +90,17 @@ const skipQuestionQuestion = () => {
     displayQuizEnd();
   }
 };
+
+const skipQuestion = () => {
+  quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
+
+  if (quizData.currentQuestionIndex < quizData.questions.length) {
+    initQuestionPage();
+  } else {
+    displayQuizEnd();
+  }
+};
+
 const displayQuizEnd = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
 
@@ -87,7 +108,7 @@ const displayQuizEnd = () => {
   if (quizData.score >= 50) {
     resultMessage = `<h2>Congratulations! You win the quiz!</h2>`;
   } else {
-    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!`;
+    resultMessage = `<h2>Sorry, you lose the quiz. Better luck next time!</h2>`;
   }
 
   userInterface.innerHTML = `
