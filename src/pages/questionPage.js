@@ -14,6 +14,8 @@ export const initQuestionPage = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
   userInterface.innerHTML = '';
 
+  shouldCountScore = true;
+
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
   const questionElement = createQuestionElement(currentQuestion.text);
 
@@ -51,7 +53,7 @@ const handleAnswerSelection = (selectedKey) => {
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
   currentQuestion.selected = selectedKey;
 
-  if (selectedKey === currentQuestion.correct) {
+  if (selectedKey === currentQuestion.correct && shouldCountScore ) {
     quizData.score += 10;
   }
 
@@ -97,14 +99,12 @@ const nextQuestion = () => {
   }
 };
 
-const skipQuestion = () => {
-  quizData.currentQuestionIndex += 1;
+let shouldCountScore = true ;
 
-  if (quizData.currentQuestionIndex < quizData.questions.length) {
-    initQuestionPage();
-  } else {
-    displayQuizEnd();
-  }
+
+const skipQuestion = () => {
+  shouldCountScore = false ;
+  document.getElementById(CORRECT_ANSWER_BUTTON_ID).style.backgroundColor = 'green';
 };
 
 const displayQuizEnd = () => {

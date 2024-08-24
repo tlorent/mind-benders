@@ -24,7 +24,7 @@ export const createQuestionElement = (question) => {
         Next question
       </button>
       <button id="${SKIP_QUESTION_BUTTON_ID}">
-        Skip
+        Show correct answer
       </button>
     </div>
   `;
