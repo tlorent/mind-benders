@@ -21,7 +21,6 @@ export const initQuestionPage = () => {
 
   const answersListElement = document.getElementById(ANSWERS_LIST_ID);
 
-
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
     answersListElement.appendChild(answerElement);
@@ -58,23 +57,19 @@ const showCorrectAndSelectedAnswer = (selectedKey) => {
   answerButtons.forEach((button) => {
     const answerKey = button.dataset.key;
 
-    
     if (answerKey === currentQuestion.correct) {
       button.classList.add('correct-answer');
     }
 
-    
     if (answerKey === selectedKey && selectedKey !== currentQuestion.correct) {
       button.classList.add('wrong-answer');
 
-      
-      document.querySelector(
-        `[data-key="${currentQuestion.correct}"]`
-      ).classList.add('correct-answer');
+      document
+        .querySelector(`[data-key="${currentQuestion.correct}"]`)
+        .classList.add('correct-answer');
     }
   });
 };
-
 
 const nextQuestion = () => {
   quizData.currentQuestionIndex = quizData.currentQuestionIndex + 1;
