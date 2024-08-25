@@ -12,6 +12,7 @@
 export const quizData = {
   currentQuestionIndex: 0,
   score: 0,
+  username: 'Stranger',
   questions: [
     {
       text: 'How many continents do we have in the world?',
@@ -136,11 +137,13 @@ export const quizData = {
       links: [
         {
           text: 'World Atlas',
-          href: 'https://www.worldatlas.com/articles/which-country-has-the-most-lakes.html',
+          href:
+            'https://www.worldatlas.com/articles/which-country-has-the-most-lakes.html',
         },
         {
           text: 'National Geographic',
-          href: 'https://www.nationalgeographic.com/environment/freshwater/lakes/',
+          href:
+            'https://www.nationalgeographic.com/environment/freshwater/lakes/',
         },
       ],
     },
@@ -162,7 +165,8 @@ export const quizData = {
         },
         {
           text: 'World Atlas',
-          href: 'https://www.worldatlas.com/articles/largest-deserts-in-the-world.html',
+          href:
+            'https://www.worldatlas.com/articles/largest-deserts-in-the-world.html',
         },
       ],
     },
@@ -184,7 +188,8 @@ export const quizData = {
         },
         {
           text: 'National Geographic',
-          href: 'https://www.nationalgeographic.com/adventure/article/tallest-mountain-on-earth',
+          href:
+            'https://www.nationalgeographic.com/adventure/article/tallest-mountain-on-earth',
         },
       ],
     },
@@ -202,7 +207,8 @@ export const quizData = {
       links: [
         {
           text: 'Japan Times',
-          href: 'https://www.japantimes.co.jp/community/2020/06/07/voices/land-of-the-rising-sun/',
+          href:
+            'https://www.japantimes.co.jp/community/2020/06/07/voices/land-of-the-rising-sun/',
         },
         {
           text: 'National Geographic',
@@ -224,11 +230,13 @@ export const quizData = {
       links: [
         {
           text: 'Worldometer',
-          href: 'https://www.worldometers.info/world-population/population-by-country/',
+          href:
+            'https://www.worldometers.info/world-population/population-by-country/',
         },
         {
           text: 'United Nations',
-          href: 'https://www.un.org/development/desa/en/key-issues/population.html',
+          href:
+            'https://www.un.org/development/desa/en/key-issues/population.html',
         },
       ],
     },

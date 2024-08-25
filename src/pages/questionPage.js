@@ -3,23 +3,31 @@ import {
   NEXT_QUESTION_BUTTON_ID,
   USER_INTERFACE_ID,
   SKIP_QUESTION_BUTTON_ID,
-  CORRECT_ANSWER_BUTTON_ID,
+  SCORE_DISPLAY_ID,
 } from '../constants.js';
 import { createQuestionElement } from '../views/questionView.js';
 import { createAnswerElement } from '../views/answerView.js';
 import { quizData } from '../data.js';
+
+let shouldCountScore = true;
 
 export const initQuestionPage = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
   userInterface.innerHTML = '';
 
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
-
   const questionElement = createQuestionElement(currentQuestion.text);
+
   userInterface.appendChild(questionElement);
 
-  const answersListElement = document.getElementById(ANSWERS_LIST_ID);
-  answersListElement.innerHTML = '';
+  const answersListElement =
+    document.getElementById(ANSWERS_LIST_ID) || document.createElement('ul');
+  if (!answersListElement.id) {
+    answersListElement.id = ANSWERS_LIST_ID;
+    userInterface.appendChild(answersListElement);
+  } else {
+    answersListElement.innerHTML = '';
+  }
 
   for (const [key, answerText] of Object.entries(currentQuestion.answers)) {
     const answerElement = createAnswerElement(key, answerText);
@@ -31,22 +39,29 @@ export const initQuestionPage = () => {
     });
   }
 
-  document
-    .getElementById(NEXT_QUESTION_BUTTON_ID)
-    .addEventListener('click', nextQuestion);
+  const nextButton = document.getElementById(NEXT_QUESTION_BUTTON_ID);
+  const skipButton = document.getElementById(SKIP_QUESTION_BUTTON_ID);
 
-  document
-    .getElementById(SKIP_QUESTION_BUTTON_ID)
-    .addEventListener('click', skipQuestion);
+  if (nextButton) {
+    nextButton.addEventListener('click', nextQuestion);
+  }
+
+  if (skipButton) {
+    skipButton.addEventListener('click', skipQuestion);
+  }
+
+  updateScoreDisplay();
 };
 
 const handleAnswerSelection = (selectedKey) => {
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
   currentQuestion.selected = selectedKey;
 
-  if (selectedKey === currentQuestion.correct) {
+  if (selectedKey === currentQuestion.correct && shouldCountScore) {
     quizData.score += 10;
   }
+
+  updateScoreDisplay();
 
   disableAnswerButtons();
 };
@@ -70,6 +85,13 @@ const showCorrectAndSelectedAnswer = (selectedKey) => {
   });
 };
 
+const updateScoreDisplay = () => {
+  const scoreElement = document.getElementById(SCORE_DISPLAY_ID);
+  if (scoreElement) {
+    scoreElement.textContent = `Your score: ${quizData.score}`;
+  }
+};
+
 const disableAnswerButtons = () => {
   const answerButtons = document.querySelectorAll(
     `#${ANSWERS_LIST_ID} .answer-option`
@@ -90,7 +112,20 @@ const nextQuestion = () => {
 };
 
 const skipQuestion = () => {
-  nextQuestion();
+  shouldCountScore = false;
+
+  const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
+  const correctAnswerElement = document.querySelector(
+    `[data-key="${currentQuestion.correct}"]`
+  );
+
+  if (correctAnswerElement) {
+    correctAnswerElement.classList.add('correct-answer');
+  }
+
+  setTimeout(() => {
+    nextQuestion();
+  }, 1000);
 };
 
 const displayQuizEnd = () => {
